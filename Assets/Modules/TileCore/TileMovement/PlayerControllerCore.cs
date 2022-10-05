@@ -90,9 +90,11 @@ namespace Core.Tiles
                 // assign precedence to change in direction
                 if (prevDir == Dir.None || prevDir == Dir.Up || prevDir == Dir.Down) {
                     m_moveVector.y = 0;
+                    m_moveVector.x = 1 * Mathf.Sign(m_moveVector.x);
                 }
                 else if (prevDir == Dir.Left || prevDir == Dir.Right) {
                     m_moveVector.x = 0;
+                    m_moveVector.y = 1 * Mathf.Sign(m_moveVector.y);
                 }
             }
         }
@@ -124,11 +126,12 @@ namespace Core.Tiles
 
         private IEnumerator MoveTo(Vector3 destPos) {
             Debug.Log("Starting move");
+            Debug.Log("Dest pos: " + destPos);
 
             m_midStep = true;
             Vector2 normalizedDir = (destPos - this.transform.position).normalized;
 
-            while (Vector3.Distance(this.transform.position, destPos) > 0.01f) {
+            while (Vector3.Distance(this.transform.position, destPos) > 0.0f) {
                 float speed = m_sprintHeld ? m_sprintSpeed : m_walkSpeed;
                 Vector3 newPos = this.transform.position;
 
