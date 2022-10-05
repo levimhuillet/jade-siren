@@ -29,16 +29,16 @@ namespace Siren
         #region Helpers
 
         private Core.Animation.CharState ConvertMoveVectorToState() {
-            if (m_moveVector.x == 0 && m_moveVector.y == 0) {
-                return Core.Animation.CharState.Idle;
-            }
-            else {
+            if (m_midStep) {
                 if (m_sprintHeld) {
                     return Core.Animation.CharState.Running;
                 }
                 else {
                     return Core.Animation.CharState.Walking;
                 }
+            }
+            else {
+                return Core.Animation.CharState.Idle;
             }
         }
 
