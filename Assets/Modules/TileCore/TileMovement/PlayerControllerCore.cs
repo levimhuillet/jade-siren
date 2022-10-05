@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Core.Tiles
@@ -15,8 +14,10 @@ namespace Core.Tiles
 
     public class PlayerControllerCore : MonoBehaviour
     {
-        [SerializeField] protected float m_minStepTime; // min time between steps
-        protected float m_stepTimer;
+        protected bool m_midStep; // whether the player is mid-step
+
+        [SerializeField] protected float m_walkSpeed;
+        [SerializeField] protected float m_sprintSpeed;
 
         protected PlayerMovement m_moveControls;
 
@@ -41,6 +42,7 @@ namespace Core.Tiles
         }
 
         protected void Start() {
+            // Subscribe to input events
             m_moveControls.Main.Movement.performed += ctx => HandleMovementPerformed();
             m_moveControls.Main.Movement.canceled += ctx => HandleMovementCanceled();
             m_moveControls.Main.Sprint.performed += ctx => HandleSprintPerformed();
@@ -48,11 +50,12 @@ namespace Core.Tiles
 
             m_moveHeld = false;
             m_sprintHeld = false;
+            m_midStep = false;
         }
 
         protected void Update() {
             if (m_moveHeld) {
-                if (m_stepTimer == 0) {
+                if (!m_midStep) {
                     m_moveVector = m_moveControls.Main.Movement.ReadValue<Vector2>();
                     AssignDirPrecedence();
 
@@ -61,16 +64,11 @@ namespace Core.Tiles
                     bool canMove = CanMoveInto(tileType);
 
                     if (canMove) {
-                        MovePlayer();
-
-                        m_stepTimer = m_sprintHeld ? m_minStepTime / 2f : m_minStepTime;
+                        StartCoroutine(MoveTo(projectedPos));
 
                         // update move dir
                         UpdateMoveDir();
                     }
-                }
-                else {
-                    m_stepTimer = Mathf.Max(m_stepTimer - Time.deltaTime, 0);
                 }
             }
             else {
@@ -99,10 +97,6 @@ namespace Core.Tiles
             }
         }
 
-        private void MovePlayer() {
-            this.transform.position += m_moveVector;
-        }
-
         private void UpdateMoveDir() {
             if (m_moveVector.x != 0) {
                 if (m_moveVector.x > 0) {
@@ -126,6 +120,44 @@ namespace Core.Tiles
                     m_moveDir = Dir.None;
                 }
             }
+        }
+
+        private IEnumerator MoveTo(Vector3 destPos) {
+            Debug.Log("Starting move");
+
+            m_midStep = true;
+            Vector2 normalizedDir = (destPos - this.transform.position).normalized;
+
+            while (Vector3.Distance(this.transform.position, destPos) > 0.01f) {
+                float speed = m_sprintHeld ? m_sprintSpeed : m_walkSpeed;
+                Vector3 newPos = this.transform.position;
+
+                // move x closer
+                float projectedX = this.transform.position.x + normalizedDir.x * speed * Time.deltaTime;
+                if (normalizedDir.x > 0) {
+                    newPos.x = Mathf.Min(destPos.x, projectedX);
+                }
+                else {
+                    newPos.x = Mathf.Max(destPos.x, projectedX);
+                }
+
+                // move y closer
+                float projectedY = this.transform.position.y + normalizedDir.y * speed * Time.deltaTime;
+                if (normalizedDir.y > 0) {
+                    newPos.y = Mathf.Min(destPos.y, projectedY);
+                }
+                else {
+                    newPos.y = Mathf.Max(destPos.y, projectedY);
+                }
+
+                this.transform.position = newPos;
+                yield return null;
+            }
+
+            this.transform.position = destPos;
+
+            m_midStep = false;
+            Debug.Log("Ending move");
         }
 
         #endregion // Helpers

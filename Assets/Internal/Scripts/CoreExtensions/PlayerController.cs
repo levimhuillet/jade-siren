@@ -1,7 +1,5 @@
 using Core.Tiles;
 using Core.Animation;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Siren
