@@ -60,8 +60,8 @@ namespace Core.Tiles
                     AssignDirPrecedence();
 
                     Vector3 projectedPos = this.transform.position + m_moveVector;
-                    Type tileType = TilemapMgr.Instance.QueryTileType(projectedPos);
-                    bool canMove = CanMoveInto(tileType);
+                    TileDataCore tileData = TilemapMgr.Instance.QueryTileAt(projectedPos);
+                    bool canMove = CanMoveInto(tileData);
 
                     if (canMove) {
                         StartCoroutine(MoveTo(projectedPos));
@@ -80,8 +80,9 @@ namespace Core.Tiles
 
         #region Helpers
 
-        protected bool CanMoveInto(Type tileType) {
-            return tileType == Type.Walkable;
+        protected virtual bool CanMoveInto(TileDataCore tileData) {
+            if (tileData == null) { return false; }
+            return tileData.TileType() == Type.Walkable;
         }
 
         private void AssignDirPrecedence() {
@@ -125,8 +126,6 @@ namespace Core.Tiles
         }
 
         private IEnumerator MoveTo(Vector3 destPos) {
-            Debug.Log("Starting move");
-
             m_midStep = true;
             Vector2 normalizedDir = (destPos - this.transform.position).normalized;
 
@@ -159,7 +158,6 @@ namespace Core.Tiles
             this.transform.position = destPos;
 
             m_midStep = false;
-            Debug.Log("Ending move");
         }
 
         #endregion // Helpers

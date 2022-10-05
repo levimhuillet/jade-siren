@@ -13,9 +13,9 @@ namespace Core.Tiles
         #region TileData
 
         [SerializeField]
-        private List<TileData> m_tileDataList;
+        private List<TileDataCore> m_tileDataList;
 
-        private Dictionary<TileBase, TileData> m_tileDataDict;
+        private Dictionary<TileBase, TileDataCore> m_tileDataDict;
 
         #endregion
 
@@ -34,10 +34,10 @@ namespace Core.Tiles
 
         #region Init
 
-        public Dictionary<TileBase, TileData> ConstructTileDataDict() {
-            Dictionary<TileBase, TileData> dict = new Dictionary<TileBase, TileData>();
+        public Dictionary<TileBase, TileDataCore> ConstructTileDataDict() {
+            Dictionary<TileBase, TileDataCore> dict = new Dictionary<TileBase, TileDataCore>();
 
-            foreach (TileData tileData in m_tileDataList) {
+            foreach (TileDataCore tileData in m_tileDataList) {
                 foreach (var tile in tileData.Tiles) {
                     dict.Add(tile, tileData);
                 }
@@ -50,18 +50,30 @@ namespace Core.Tiles
 
         #region Queries
 
-        public Type QueryTileType(Vector3 queryPos) {
+        public TileDataCore QueryTileAt(Vector3 queryPos) {
             Vector3Int gridPos = m_map.WorldToCell(queryPos);
             TileBase currTile = m_map.GetTile(gridPos);
-            if (currTile == null) { return Type.None; }
+            if (currTile == null) { return null; }
 
-            TileData data = m_tileDataDict[currTile];
-            if (data != null) {
-                return m_tileDataDict[currTile].TileType();
+            TileDataCore data = m_tileDataDict[currTile];
+            return data;
+        }
+
+        public TileDataCore QueryDataOfTile(TileBase queryTile) {
+            if (queryTile != null) {
+                return m_tileDataDict[queryTile];
             }
             else {
-                return Type.None;
+                return null;
             }
+        }
+        
+        public Tilemap GetCurrMap() {
+            return m_map;
+        }
+
+        public void SwitchMap(Tilemap switchTo) {
+            m_map = switchTo;
         }
 
         #endregion // Queries

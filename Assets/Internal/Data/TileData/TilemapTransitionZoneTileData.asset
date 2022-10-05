@@ -10,8 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 60330e3958e2ea94c93aef29c1f87789, type: 3}
-  m_Name: OceanTileData
+  m_Name: TilemapTransitionZoneTileData
   m_EditorClassIdentifier: 
   Tiles:
-  - {fileID: 11400000, guid: 04f32899a068ad741be67dd0ac2d06a6, type: 2}
-  m_tileType: 2
+  - {fileID: 11400000, guid: e41bd5c65986d634bad085bdff10b10e, type: 2}
+  m_tileType: 1
+  m_startsHidden: 1
+  m_editorSprite: {fileID: -6013194818652864309, guid: 4466f43a1e7972943b6ae3f2ddb67708, type: 3}

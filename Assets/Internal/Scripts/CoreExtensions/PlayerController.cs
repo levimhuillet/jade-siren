@@ -1,6 +1,9 @@
 using Core.Tiles;
 using Core.Animation;
 using UnityEngine;
+using UnityEngine.InputSystem.HID;
+using Siren.Functionalities.Interactable;
+using Siren.Functionalities.Triggerable;
 
 namespace Siren
 {
@@ -40,6 +43,61 @@ namespace Siren
             else {
                 return Core.Animation.CharState.Idle;
             }
+        }
+
+        protected override bool CanMoveInto(TileDataCore tileDataCore) {
+            if (!base.CanMoveInto(tileDataCore)) {
+                return false;
+            }
+
+            // check for interactables
+            if (!CanMoveIntoInteractable()) {
+                return false;
+            }
+
+            // check for triggerables
+            if (!CanMoveIntoTriggerable()) {
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool CanMoveIntoInteractable() {
+            int interactMask = 1 << LayerMask.NameToLayer("Interact");
+            Collider2D interactHit = Physics2D.OverlapPoint((Vector2)(this.transform.position + m_moveVector), interactMask);
+            if (interactHit != null) {
+                Interactable interactable = interactHit.gameObject.GetComponent<Interactable>();
+
+                if (interactable.EnterInitiates) {
+                    // invoke interact event
+                    interactable.InitiateInteract(this.gameObject);
+                }
+
+                if (!interactable.Walkable) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        private bool CanMoveIntoTriggerable() {
+            int triggerMask = 1 << LayerMask.NameToLayer("Trigger");
+            Collider2D triggerHit = Physics2D.OverlapPoint((Vector2)(this.transform.position + m_moveVector), triggerMask);
+
+            if (triggerHit != null) {
+                Triggerable triggerable = triggerHit.gameObject.GetComponent<Triggerable>();
+
+                if (triggerable.EnterInitiates) {
+                    // invoke trigger event
+                    triggerable.InitiateTrigger(this.gameObject);
+                }
+
+                if (!triggerable.Walkable) {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         #endregion // Helpers

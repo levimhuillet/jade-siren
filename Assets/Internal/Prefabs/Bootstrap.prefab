@@ -89,6 +89,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_tileDataList:
-  - {fileID: 11400000, guid: efc769ed37d3b7047b9fc15d313da31a, type: 2}
   - {fileID: 11400000, guid: db516d204a3ac5742804fc9aa6dcde54, type: 2}
+  - {fileID: 11400000, guid: efc769ed37d3b7047b9fc15d313da31a, type: 2}
+  - {fileID: 11400000, guid: a2d0c807aad88524baa82947c7060c1a, type: 2}
+  - {fileID: 11400000, guid: 696e27269618c144fa55c4493442fac6, type: 2}
+  - {fileID: 11400000, guid: acfbf621b7caca8499064ee57d5e91c2, type: 2}
+  - {fileID: 11400000, guid: 5c9dc5f8db2fffa49a0dfe880985ed98, type: 2}
   m_map: {fileID: 0}

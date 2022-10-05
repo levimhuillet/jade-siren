@@ -13,8 +13,7 @@ namespace Core.Tiles
         Obstacle
     }
 
-    [CreateAssetMenu]
-    public class TileData : ScriptableObject
+    public class TileDataCore : ScriptableObject
     {
         public TileBase[] Tiles; // the tiles that incorporate this data
 
