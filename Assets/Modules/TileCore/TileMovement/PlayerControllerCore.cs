@@ -65,10 +65,10 @@ namespace Core.Tiles
 
                     if (canMove) {
                         StartCoroutine(MoveTo(projectedPos));
-
-                        // update move dir
-                        UpdateMoveDir();
                     }
+
+                    // update move dir
+                    UpdateMoveDir();
                 }
             }
             else {
@@ -126,7 +126,6 @@ namespace Core.Tiles
 
         private IEnumerator MoveTo(Vector3 destPos) {
             Debug.Log("Starting move");
-            Debug.Log("Dest pos: " + destPos);
 
             m_midStep = true;
             Vector2 normalizedDir = (destPos - this.transform.position).normalized;
