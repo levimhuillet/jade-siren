@@ -53,18 +53,21 @@ namespace Core.Tiles
             m_midStep = false;
         }
 
-        protected void Update() {
+        protected void FixedUpdate() {
             if (m_moveHeld) {
                 if (!m_midStep) {
                     m_moveVector = m_moveControls.Main.Movement.ReadValue<Vector2>();
                     AssignDirPrecedence();
-
-                    Vector3 projectedPos = this.transform.position + m_moveVector;
+                    Vector3 projectedPos = GetProjectedPos();
                     TileDataCore tileData = TilemapMgr.Instance.QueryTileAt(projectedPos);
                     bool canMove = CanMoveInto(tileData);
 
+                    // Debug.Log("start pos world: " + this.transform.position);
+                    // Debug.Log("dest pos world: " + projectedPos);
+
                     if (canMove) {
-                        StartCoroutine(MoveTo(projectedPos));
+                        Vector3 relativeDestPos = this.transform.InverseTransformPoint(projectedPos) + this.transform.localPosition;
+                        StartCoroutine(MoveTo(relativeDestPos));
                     }
 
                     // update move dir
@@ -125,39 +128,48 @@ namespace Core.Tiles
             }
         }
 
-        private IEnumerator MoveTo(Vector3 destPos) {
-            m_midStep = true;
-            Vector2 normalizedDir = (destPos - this.transform.position).normalized;
+        private IEnumerator MoveTo(Vector3 destPosRelative) {
+            //Debug.Log("start pos relative: " + this.transform.localPosition);
+            //Debug.Log("dest pos relative: " + destPosRelative);
 
-            while (Vector3.Distance(this.transform.position, destPos) > 0.0f) {
+            m_midStep = true;
+            Vector2 normalizedDir = (destPosRelative - this.transform.localPosition).normalized;
+
+            while (Vector3.Distance(this.transform.localPosition, destPosRelative) > 0.01f) {
                 float speed = m_sprintHeld ? m_sprintSpeed : m_walkSpeed;
-                Vector3 newPos = this.transform.position;
+                Vector3 newPos = this.transform.localPosition;
 
                 // move x closer
-                float projectedX = this.transform.position.x + normalizedDir.x * speed * Time.deltaTime;
+                float projectedX = this.transform.localPosition.x + normalizedDir.x * speed * Time.deltaTime;
                 if (normalizedDir.x > 0) {
-                    newPos.x = Mathf.Min(destPos.x, projectedX);
+                    newPos.x = Mathf.Min(destPosRelative.x, projectedX);
                 }
                 else {
-                    newPos.x = Mathf.Max(destPos.x, projectedX);
+                    newPos.x = Mathf.Max(destPosRelative.x, projectedX);
                 }
 
                 // move y closer
-                float projectedY = this.transform.position.y + normalizedDir.y * speed * Time.deltaTime;
+                float projectedY = this.transform.localPosition.y + normalizedDir.y * speed * Time.deltaTime;
                 if (normalizedDir.y > 0) {
-                    newPos.y = Mathf.Min(destPos.y, projectedY);
+                    newPos.y = Mathf.Min(destPosRelative.y, projectedY);
                 }
                 else {
-                    newPos.y = Mathf.Max(destPos.y, projectedY);
+                    newPos.y = Mathf.Max(destPosRelative.y, projectedY);
                 }
 
-                this.transform.position = newPos;
+                this.transform.localPosition = newPos;
                 yield return null;
             }
 
-            this.transform.position = destPos;
+            this.transform.localPosition = destPosRelative;
 
             m_midStep = false;
+        }
+
+        protected Vector3 GetProjectedPos() {
+            Vector3 rotatedVector = this.transform.rotation * m_moveVector;
+            Vector3 projectedPos = this.transform.position + rotatedVector;
+            return projectedPos;
         }
 
         #endregion // Helpers

@@ -20,8 +20,8 @@ namespace Siren
             m_moveDir = Dir.Down;
         }
 
-        new protected void Update() {
-            base.Update();
+        new protected void FixedUpdate() {
+            base.FixedUpdate();
 
             Core.Animation.CharState currState = ConvertMoveVectorToState();
             bool flipX = m_moveDir == Dir.Right;
@@ -65,7 +65,7 @@ namespace Siren
 
         private bool CanMoveIntoInteractable() {
             int interactMask = 1 << LayerMask.NameToLayer("Interact");
-            Collider2D interactHit = Physics2D.OverlapPoint((Vector2)(this.transform.position + m_moveVector), interactMask);
+            Collider2D interactHit = Physics2D.OverlapPoint((Vector2)GetProjectedPos(), interactMask);
             if (interactHit != null) {
                 Interactable interactable = interactHit.gameObject.GetComponent<Interactable>();
 
@@ -82,7 +82,7 @@ namespace Siren
         }
         private bool CanMoveIntoTriggerable() {
             int triggerMask = 1 << LayerMask.NameToLayer("Trigger");
-            Collider2D triggerHit = Physics2D.OverlapPoint((Vector2)(this.transform.position + m_moveVector), triggerMask);
+            Collider2D triggerHit = Physics2D.OverlapPoint((Vector2)GetProjectedPos(), triggerMask);
 
             if (triggerHit != null) {
                 Triggerable triggerable = triggerHit.gameObject.GetComponent<Triggerable>();

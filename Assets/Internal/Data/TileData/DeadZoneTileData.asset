@@ -15,4 +15,5 @@ MonoBehaviour:
   Tiles:
   - {fileID: 11400000, guid: fc6784bed7d760444ad7d61b8a958b48, type: 2}
   m_tileType: 2
-  m_accessibleElevations: 
+  m_startsHidden: 1
+  m_editorSprite: {fileID: 7093386974113873280, guid: 4466f43a1e7972943b6ae3f2ddb67708, type: 3}
