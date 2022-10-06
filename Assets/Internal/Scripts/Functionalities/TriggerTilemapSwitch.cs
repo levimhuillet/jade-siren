@@ -1,5 +1,5 @@
 using Core.Tiles;
-using Siren.Functionalities.Triggerable;
+using Siren.Functionalities.Triggerables;
 using System;
 using System.Collections;
 using System.Collections.Generic;

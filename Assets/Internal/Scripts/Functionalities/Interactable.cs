@@ -1,10 +1,10 @@
-using Siren.Functionalities.Triggerable;
+using Siren.Functionalities.Triggerables;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Siren.Functionalities.Interactable
+namespace Siren.Functionalities.Interactables
 {
     public class InteractableEventArgs : EventArgs
     {

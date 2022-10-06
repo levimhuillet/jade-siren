@@ -1,4 +1,4 @@
-using Siren.Functionalities.Interactable;
+using Siren.Functionalities.Interactables;
 using System;
 using System.Collections;
 using System.Collections.Generic;

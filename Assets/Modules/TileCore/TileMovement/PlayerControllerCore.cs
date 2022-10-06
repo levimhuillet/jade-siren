@@ -38,7 +38,7 @@ namespace Core.Tiles
         }
 
         protected void OnDisable() {
-            m_moveControls.Enable();
+            m_moveControls.Disable();
         }
 
         protected void Start() {

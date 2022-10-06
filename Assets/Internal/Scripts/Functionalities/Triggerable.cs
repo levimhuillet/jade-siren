@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Siren.Functionalities.Triggerable
+namespace Siren.Functionalities.Triggerables
 {
     public class TriggerableEventArgs : EventArgs
     {

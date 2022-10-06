@@ -2,8 +2,8 @@ using Core.Tiles;
 using Core.Animation;
 using UnityEngine;
 using UnityEngine.InputSystem.HID;
-using Siren.Functionalities.Interactable;
-using Siren.Functionalities.Triggerable;
+using Siren.Functionalities.Interactables;
+using Siren.Functionalities.Triggerables;
 
 namespace Siren
 {

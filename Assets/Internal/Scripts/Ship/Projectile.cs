@@ -11,6 +11,8 @@ namespace Siren
         private float m_speed;
         private Vector3 m_travelDir;
 
+        private static int DESTROY_BOUNDS = 50;
+
         private enum State {
             Init,
             Launching,
@@ -30,6 +32,11 @@ namespace Siren
                     break;
                 case State.Traveling:
                     this.transform.Translate(m_travelDir * m_speed * Time.deltaTime, Space.World);
+
+                    // TEMP HACK SOLUTION
+                    if (Vector3.Distance(this.transform.position, Bootstrap.Instance.transform.position) > DESTROY_BOUNDS) {
+                        Destroy(this.gameObject);
+                    }
                     break;
                 case State.Impacting:
                     break;
