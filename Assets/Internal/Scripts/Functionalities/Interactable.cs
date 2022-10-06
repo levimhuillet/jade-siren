@@ -38,7 +38,7 @@ namespace Siren.Functionalities.Interactable
         }
 
         public void InitiateInteract(GameObject initiator) {
-            OnInteract.Invoke(this, new InteractableEventArgs(initiator));
+            OnInteract?.Invoke(this, new InteractableEventArgs(initiator));
         }
     }
 }

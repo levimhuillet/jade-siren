@@ -37,7 +37,7 @@ namespace Siren.Functionalities.Triggerable
         }
 
         public void InitiateTrigger(GameObject initiator) {
-            OnTrigger.Invoke(this, new TriggerableEventArgs(initiator));
+            OnTrigger?.Invoke(this, new TriggerableEventArgs(initiator));
         }
     }
 }
