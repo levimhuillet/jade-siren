@@ -44,6 +44,15 @@ public partial class @PlayerMovement : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""4a967bb2-9492-4686-9160-193d36c3ec01"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -112,6 +121,28 @@ public partial class @PlayerMovement : IInputActionCollection2, IDisposable
                     ""action"": ""Sprint"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8b72470d-53f7-4642-ba18-e41c4ec19fd2"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""10d99e83-1191-49e0-85f3-b39aa4fe74b0"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -122,6 +153,7 @@ public partial class @PlayerMovement : IInputActionCollection2, IDisposable
         m_Main = asset.FindActionMap("Main", throwIfNotFound: true);
         m_Main_Movement = m_Main.FindAction("Movement", throwIfNotFound: true);
         m_Main_Sprint = m_Main.FindAction("Sprint", throwIfNotFound: true);
+        m_Main_Interact = m_Main.FindAction("Interact", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -183,12 +215,14 @@ public partial class @PlayerMovement : IInputActionCollection2, IDisposable
     private IMainActions m_MainActionsCallbackInterface;
     private readonly InputAction m_Main_Movement;
     private readonly InputAction m_Main_Sprint;
+    private readonly InputAction m_Main_Interact;
     public struct MainActions
     {
         private @PlayerMovement m_Wrapper;
         public MainActions(@PlayerMovement wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Main_Movement;
         public InputAction @Sprint => m_Wrapper.m_Main_Sprint;
+        public InputAction @Interact => m_Wrapper.m_Main_Interact;
         public InputActionMap Get() { return m_Wrapper.m_Main; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -204,6 +238,9 @@ public partial class @PlayerMovement : IInputActionCollection2, IDisposable
                 @Sprint.started -= m_Wrapper.m_MainActionsCallbackInterface.OnSprint;
                 @Sprint.performed -= m_Wrapper.m_MainActionsCallbackInterface.OnSprint;
                 @Sprint.canceled -= m_Wrapper.m_MainActionsCallbackInterface.OnSprint;
+                @Interact.started -= m_Wrapper.m_MainActionsCallbackInterface.OnInteract;
+                @Interact.performed -= m_Wrapper.m_MainActionsCallbackInterface.OnInteract;
+                @Interact.canceled -= m_Wrapper.m_MainActionsCallbackInterface.OnInteract;
             }
             m_Wrapper.m_MainActionsCallbackInterface = instance;
             if (instance != null)
@@ -214,6 +251,9 @@ public partial class @PlayerMovement : IInputActionCollection2, IDisposable
                 @Sprint.started += instance.OnSprint;
                 @Sprint.performed += instance.OnSprint;
                 @Sprint.canceled += instance.OnSprint;
+                @Interact.started += instance.OnInteract;
+                @Interact.performed += instance.OnInteract;
+                @Interact.canceled += instance.OnInteract;
             }
         }
     }
@@ -222,5 +262,6 @@ public partial class @PlayerMovement : IInputActionCollection2, IDisposable
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
     }
 }

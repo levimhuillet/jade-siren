@@ -45,8 +45,12 @@ namespace Core.Tiles
             // Subscribe to input events
             m_moveControls.Main.Movement.performed += ctx => HandleMovementPerformed();
             m_moveControls.Main.Movement.canceled += ctx => HandleMovementCanceled();
+
             m_moveControls.Main.Sprint.performed += ctx => HandleSprintPerformed();
             m_moveControls.Main.Sprint.canceled += ctx => HandleSprintCanceled();
+
+            m_moveControls.Main.Interact.performed += ctx => HandleInteractPerformed();
+            m_moveControls.Main.Interact.canceled += ctx => HandleInteractCanceled();
 
             m_moveHeld = false;
             m_sprintHeld = false;
@@ -172,6 +176,31 @@ namespace Core.Tiles
             return projectedPos;
         }
 
+        protected Vector3 GetPosInFront() {
+            Vector3 frontVector = Vector3.zero;
+
+            switch (m_moveDir) {
+                case Dir.Up:
+                    frontVector = Vector3.up;
+                    break;
+                case Dir.Down:
+                    frontVector = Vector3.down;
+                    break;
+                case Dir.Left:
+                    frontVector = Vector3.left;
+                    break;
+                case Dir.Right:
+                    frontVector = Vector3.right;
+                    break;
+                default:
+                    break;
+            }
+
+            Vector3 rotatedVector = this.transform.rotation * frontVector;
+            Vector3 frontPos = this.transform.position + rotatedVector;
+            return frontPos;
+        }
+
         #endregion // Helpers
 
         #region Handlers
@@ -190,6 +219,14 @@ namespace Core.Tiles
 
         protected void HandleSprintCanceled() {
             m_sprintHeld = false;
+        }
+
+        protected virtual void HandleInteractPerformed() {
+            return;
+        }
+
+        protected void HandleInteractCanceled() {
+            return;
         }
 
         #endregion // Handlers

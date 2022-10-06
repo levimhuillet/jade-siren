@@ -101,5 +101,22 @@ namespace Siren
         }
 
         #endregion // Helpers
+
+        #region PlayerControllerCore Handlers
+
+        protected override void HandleInteractPerformed() {
+            base.HandleInteractPerformed();
+
+            int interactMask = 1 << LayerMask.NameToLayer("Interact");
+            Collider2D interactHit = Physics2D.OverlapPoint((Vector2)GetPosInFront(), interactMask);
+            if (interactHit != null) {
+                Interactable interactable = interactHit.gameObject.GetComponent<Interactable>();
+                
+                // invoke interact event
+                interactable.InitiateInteract(this.gameObject);
+            }
+        }
+
+        #endregion // PlayerControllerCore Handlers
     }
 }
