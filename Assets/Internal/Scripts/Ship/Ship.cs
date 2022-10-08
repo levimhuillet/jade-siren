@@ -87,7 +87,7 @@ namespace Siren
 
         private void RotateShip() {
             
-            Vector3 angles = transform.rotation.eulerAngles;
+            Vector3 angles = this.transform.rotation.eulerAngles;
             angles.z = angles.z + (m_rotateSpeed) * Time.deltaTime;
             if (angles.z > 360) {
                 angles.z = 0;

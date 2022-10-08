@@ -8,9 +8,11 @@ using UnityEngine;
 namespace Siren
 {
     [RequireComponent(typeof(Interactable))]
+    [RequireComponent(typeof(CameraView))]
     public class Cannon : MonoBehaviour
     {
         private Interactable m_interactableComp;
+        private CameraView m_camViewComp;
 
         [SerializeField] private GameObject m_projectilePrefab;
         [SerializeField] private float m_launchSpeed;
@@ -19,13 +21,22 @@ namespace Siren
 
         private void Awake() {
             m_interactableComp = this.GetComponent<Interactable>();
-
             m_interactableComp.OnInteract += HandleInteract;
+
+            m_camViewComp = this.GetComponent<CameraView>();
         }
 
         #region Handlers
 
         private void HandleInteract(object sender, EventArgs args) {
+            if (m_camViewComp.IsCamActive()) {
+                //m_camViewComp.DeactivateView();
+            }
+            else {
+                m_camViewComp.ActivateView();
+                StartCoroutine(DeactivateAfter(6));
+            }
+
             Vector3 launchDir = (m_cannonMouthTransform.position - this.transform.position).normalized;
 
             Projectile newProjectile = Instantiate(m_projectilePrefab).GetComponent<Projectile>();
@@ -34,5 +45,19 @@ namespace Siren
         }
 
         #endregion // Handlers
+
+        #region Temp Debug
+
+        private IEnumerator DeactivateAfter(float time) {
+            while (time > 0) {
+                time -= Time.deltaTime;
+                yield return null;
+            }
+
+            m_camViewComp.DeactivateView();
+            yield return null;
+        }
+
+        #endregion // Temp Debug
     }
 }
