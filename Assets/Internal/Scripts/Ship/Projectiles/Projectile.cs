@@ -1,17 +1,27 @@
+using Siren.Targets;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Siren
+namespace Siren.Projectiles
 {
+    public enum Type {
+        Cannonball,
+        GoldOrb
+    }
+
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(Collider2D))]
     public class Projectile : MonoBehaviour
     {
+        [SerializeField] private Type m_type;
+        [SerializeField] private float m_baseDamage;
+
         private float m_speed;
         private Vector3 m_travelDir;
 
-        private static int DESTROY_BOUNDS = 50;
+        private static int DESTROY_BOUNDS = 50; // TEMP HACK
 
         private enum State {
             Init,
@@ -45,6 +55,13 @@ namespace Siren
             }
         }
 
+        private void OnCollisionEnter2D(Collision2D collision) {
+            Target targetComp = collision.gameObject.GetComponent<Target>();
+            if (targetComp != null) {
+                targetComp.EncounterProjectile(this);
+            }
+        }
+
         #endregion // Callbacks
 
         #region External 
@@ -64,7 +81,23 @@ namespace Siren
             m_state = State.Traveling;
         }
 
+        public virtual void TriggerDestroySequence() {
+            Destroy(this.gameObject);
+        }
+
         #endregion // External
+
+        #region Queries
+
+        public Type GetProjectileType() {
+            return m_type;
+        }
+
+        public float GetBaseDamage() {
+            return m_baseDamage;
+        }
+
+        #endregion // Queries
 
 
     }

@@ -1,4 +1,5 @@
 using Siren.Functionalities.Interactables;
+using Siren.Projectiles;
 using System;
 using System.Collections;
 using System.Collections.Generic;
