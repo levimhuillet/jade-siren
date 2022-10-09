@@ -8,7 +8,7 @@ namespace Siren.Functionalities
     {
         [SerializeField] private GameObject m_referenceObj;
         [SerializeField] private float m_speed;
-        
+
         public void MoveTowardRef() {
             if (m_referenceObj == null) {
                 Debug.Log("[Moves] GameObject with name " + this.gameObject.name + " has no frame of reference for movement.");

@@ -30,18 +30,16 @@ namespace Siren
 
         private void HandleInteract(object sender, EventArgs args) {
             if (m_camViewComp.IsCamActive()) {
-                //m_camViewComp.DeactivateView();
+                Vector3 launchDir = (m_cannonMouthTransform.position - this.transform.position).normalized;
+
+                Projectile newProjectile = Instantiate(m_projectilePrefab).GetComponent<Projectile>();
+                newProjectile.Init(m_cannonMouthTransform.position, m_launchSpeed, launchDir);
+                newProjectile.Launch();
             }
             else {
                 m_camViewComp.ActivateView();
                 StartCoroutine(DeactivateAfter(6));
             }
-
-            Vector3 launchDir = (m_cannonMouthTransform.position - this.transform.position).normalized;
-
-            Projectile newProjectile = Instantiate(m_projectilePrefab).GetComponent<Projectile>();
-            newProjectile.Init(m_cannonMouthTransform.position, m_launchSpeed, launchDir);
-            newProjectile.Launch();
         }
 
         #endregion // Handlers
