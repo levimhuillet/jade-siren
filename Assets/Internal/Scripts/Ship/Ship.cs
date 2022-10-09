@@ -8,6 +8,7 @@ namespace Siren
     {
         [SerializeField] private float m_baseSpeed; // the base speed
         [SerializeField] private int m_maxSails;
+        [SerializeField] private List<Sail> m_sails;
 
         [SerializeField] private List<GameObject> m_onDeck;
 
@@ -26,6 +27,14 @@ namespace Siren
             }
 
             m_numSailsUnfurled = 1; // 0;
+            for (int i = 0; i < m_maxSails; i++) {
+                if (i < m_numSailsUnfurled) {
+                    m_sails[i].Unfurl();
+                }
+                else {
+                    m_sails[i].Furl();
+                }
+            }
         }
 
         private void FixedUpdate() {
@@ -46,7 +55,7 @@ namespace Siren
             }
             else {
                 m_numSailsUnfurled++;
-                UnfurlSailSequence(m_numSailsUnfurled);
+                UnfurlSailSequence(m_numSailsUnfurled - 1);
             }
         }
 
@@ -56,7 +65,7 @@ namespace Siren
                 return;
             }
             else {
-                FurlSailSequence(m_numSailsUnfurled);
+                FurlSailSequence(m_numSailsUnfurled - 1);
                 m_numSailsUnfurled--;
             }
         }
@@ -66,11 +75,11 @@ namespace Siren
         #region Helpers 
 
         private void UnfurlSailSequence(int sailIndex) {
-            Debug.Log("Unfurling sail " + sailIndex);
+            m_sails[sailIndex].Unfurl();
         }
 
         private void FurlSailSequence(int sailIndex) {
-            Debug.Log("Furling sail " + sailIndex);
+            m_sails[sailIndex].Furl();
         }
 
         #endregion // Helpers
