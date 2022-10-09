@@ -21,7 +21,9 @@ namespace Siren
             if (m_onDeck == null) {
                 m_onDeck = new List<GameObject>();
             }
+        }
 
+        private void Start() {
             for (int o = 0; o < m_onDeck.Count; o++) {
                 m_onDeck[o].transform.parent = this.transform;
             }
