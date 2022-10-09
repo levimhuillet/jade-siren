@@ -24,7 +24,7 @@ namespace Siren.Functionalities
                     m_inputScheme = new PlayerMovement();
                     break;
                 case InputSchemeID.ShipHelm:
-                    // m_inputScheme = new PlayerMovement();
+                    m_inputScheme = new HelmControls();
                     break;
                 case InputSchemeID.ShipCannon:
                     m_inputScheme = new CannonControls();

@@ -97,9 +97,6 @@ namespace Siren.Affecters
         private void RotateShip(MovementAffectable toMove) {
             Vector3 angles = toMove.transform.rotation.eulerAngles;
             angles.z = angles.z + (m_rotateSpeed) * Time.deltaTime;
-            if (angles.z > 360) {
-                angles.z = 0;
-            }
             toMove.transform.rotation = Quaternion.Euler(angles);
             m_rotateSpeed += m_rotationIncrease * Time.deltaTime;
         }
