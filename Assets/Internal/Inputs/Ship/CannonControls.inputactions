@@ -1,0 +1,54 @@
+{
+    "name": "CannonControls",
+    "maps": [
+        {
+            "name": "Main",
+            "id": "2b8cf92c-d55a-42d1-9a5a-2524386f670b",
+            "actions": [
+                {
+                    "name": "Exit",
+                    "type": "Button",
+                    "id": "e14e0554-e234-4dc9-bcf6-bca30907ee83",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Shoot",
+                    "type": "Button",
+                    "id": "eac45c4f-c0d8-4695-80a9-e0c5ef201c05",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "3f225e01-8a50-4f9f-8900-f8835a3d2de1",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Exit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1bfe0f34-e0c3-465a-a351-b6218b2dfa5a",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shoot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

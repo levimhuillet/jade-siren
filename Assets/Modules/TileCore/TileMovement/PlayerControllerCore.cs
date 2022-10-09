@@ -29,15 +29,15 @@ namespace Core.Tiles
 
         #region Unity Callbacks
 
-        protected void Awake() {
+        protected virtual void Awake() {
             m_moveControls = new PlayerMovement();
         }
 
-        protected void OnEnable() {
+        protected virtual void OnEnable() {
             m_moveControls.Enable();
         }
 
-        protected void OnDisable() {
+        protected virtual void OnDisable() {
             m_moveControls.Disable();
         }
 

@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.InputSystem.HID;
 using Siren.Functionalities.Interactables;
 using Siren.Functionalities.Triggerables;
+using UnityEditor;
+using Siren.Functionalities;
 
 namespace Siren
 {
@@ -11,13 +13,32 @@ namespace Siren
     public class PlayerController : PlayerControllerCore
     {
         private AnimatedChar m_animatedCharComp;
+        private ChangesInputScheme m_inputSchemeComp;
 
         new private void Awake() {
-            base.Awake();
+            // controls now initialized through InputMgr
+            // base.Awake();
+            m_inputSchemeComp = GetComponent<ChangesInputScheme>();
+            m_inputSchemeComp.Init();
+            m_moveControls = (PlayerMovement)m_inputSchemeComp.GetInputScheme();
 
             m_animatedCharComp = GetComponent<AnimatedChar>();
 
             m_moveDir = Dir.Down;
+        }
+
+        new private void OnEnable() {
+            // controls now enabled through input mgr
+            // base.OnEnable()
+        }
+
+        new private void OnDisable() {
+            // controls now disabled through input mgr
+            // base.OnDisable()
+        }
+
+        new private void Start() {
+            base.Start();
         }
 
         new protected void FixedUpdate() {

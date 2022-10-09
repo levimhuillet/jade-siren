@@ -36,8 +36,6 @@ namespace Siren.Affecters
         #region IAffectsMovement
 
         public void MovementEffect(MovementAffectable toMove) {
-            Debug.Log("[Vortex] Affecting movement!");
-
             if (toMove.GetComponent<Ship>() != null) {
                 Vector3 moveVector = CalcSwirlPhaseVector(toMove);
 
