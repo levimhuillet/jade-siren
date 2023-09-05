@@ -1,3 +1,6 @@
 [submodule "Submodules/core-tile"]
 	path = Submodules/core-tile
 	url = https://github.com/levimhuillet/core-tile.git
+[submodule "Submodules/core-2d-anim"]
+	path = Submodules/core-2d-anim
+	url = https://github.com/levimhuillet/core-2d-anim.git
