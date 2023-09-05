@@ -1,0 +1,3 @@
+[submodule "Submodules/core-tile"]
+	path = Submodules/core-tile
+	url = https://github.com/levimhuillet/core-tile.git
